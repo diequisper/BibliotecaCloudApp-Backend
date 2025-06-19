@@ -9,6 +9,7 @@ namespace EF_DiegoQuispeR.Models
     {
         public Autor()
         {
+            AutorBookmarks = new HashSet<AutorBookmark>();
             Libros = new HashSet<Libro>();
         }
 
@@ -17,7 +18,11 @@ namespace EF_DiegoQuispeR.Models
         public string Apellido { get; set; }
         public DateTime? FechaNac { get; set; }
         public string Nacionalidad { get; set; }
+        public string BreveBio { get; set; }
+        public DateTime? FechaDeceso { get; set; }
+        public string ImagenUrl { get; set; }
 
+        public virtual ICollection<AutorBookmark> AutorBookmarks { get; set; }
         public virtual ICollection<Libro> Libros { get; set; }
     }
 }
