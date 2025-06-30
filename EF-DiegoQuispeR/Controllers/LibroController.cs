@@ -178,5 +178,41 @@ namespace EF_DiegoQuispeR.Controllers
             }
         }
 
+        // 2. Eliminar un bookmark por su ID
+        [HttpDelete("deleteBookmarkById/{id}")]
+        public IActionResult DeleteBookmarkById(int id)
+        {
+            try
+            {
+                var libroBookmark = ctx.LibroBookmarks.FirstOrDefault(b => b.Id == id);
+                var autorBookmark = ctx.AutorBookmarks.FirstOrDefault(b => b.Id == id);
+                var editorialBookmark = ctx.EditorialBookmarks.FirstOrDefault(b => b.Id == id);
+
+                if (libroBookmark != null)
+                {
+                    ctx.LibroBookmarks.Remove(libroBookmark);
+                }
+                else if (autorBookmark != null)
+                {
+                    ctx.AutorBookmarks.Remove(autorBookmark);
+                }
+                else if (editorialBookmark != null)
+                {
+                    ctx.EditorialBookmarks.Remove(editorialBookmark);
+                }
+                else
+                {
+                    return NotFound("Bookmark no encontrado.");
+                }
+
+                ctx.SaveChanges();
+                return Ok("Bookmark eliminado con éxito.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error en el servidor: " + ex.Message);
+            }
+        }
+
         
 }
