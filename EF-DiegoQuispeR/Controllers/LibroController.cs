@@ -214,5 +214,62 @@ namespace EF_DiegoQuispeR.Controllers
             }
         }
 
-        
+        // 3. Crear un nuevo bookmark
+        [HttpPost("postBookMark")]
+        public IActionResult PostBookMark([FromBody] dynamic bookmarkData)
+        {
+            try
+            {
+                int idUsuario = bookmarkData.idusuario;
+                int? idAutor = bookmarkData.idautor;
+                int? idLibro = bookmarkData.idlibro;
+                int? idEditorial = bookmarkData.ideditorial;
+
+                if (idUsuario == 0)
+                {
+                    return BadRequest("El ID de usuario es necesario.");
+                }
+
+                // Crear el bookmark dependiendo de la tabla especificada
+                if (idLibro.HasValue)
+                {
+                    var newLibroBookmark = new LibroBookmark
+                    {
+                        Usuario = idUsuario,
+                        Libro = idLibro.Value
+                    };
+                    ctx.LibroBookmarks.Add(newLibroBookmark);
+                }
+                else if (idAutor.HasValue)
+                {
+                    var newAutorBookmark = new AutorBookmark
+                    {
+                        Usuario = idUsuario,
+                        Autor = idAutor.Value
+                    };
+                    ctx.AutorBookmarks.Add(newAutorBookmark);
+                }
+                else if (idEditorial.HasValue)
+                {
+                    var newEditorialBookmark = new EditorialBookmark
+                    {
+                        Usuario = idUsuario,
+                        Editorial = idEditorial.Value
+                    };
+                    ctx.EditorialBookmarks.Add(newEditorialBookmark);
+                }
+                else
+                {
+                    return BadRequest("Debe especificar al menos un ID de autor, libro o editorial.");
+                }
+
+                ctx.SaveChanges();
+                return Ok("Bookmark creado con éxito.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error en el servidor: " + ex.Message);
+            }
+        }
+    }
 }
