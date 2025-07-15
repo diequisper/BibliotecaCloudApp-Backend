@@ -26,3 +26,15 @@ stages:
         dockerfile: '$(Build.SourcesDirectory)/EF-DiegoQuispeR/Dockerfile'
         tags: |
           $(tag)
+    
+
+
+
+
+
+
+
+
+
+
+
