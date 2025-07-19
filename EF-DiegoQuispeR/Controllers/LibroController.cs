@@ -61,10 +61,10 @@ namespace EF_DiegoQuispeR.Controllers
                                     IdAutor = reader.GetInt32(reader.GetOrdinal("id_autor")),
                                     Nombre = reader.GetString(reader.GetOrdinal("nombre")),
                                     Apellido = reader.GetString(reader.GetOrdinal("apellido")),
-                                    FechaNac = reader.GetDateTime(reader.GetOrdinal("fecha_nac")),
+                                    FechaNac = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("fecha_nac"))),
                                     Nacionalidad = reader.GetString(reader.GetOrdinal("nacionalidad")),
                                     BreveBio = reader.GetString(reader.GetOrdinal("breve_bio")),
-                                    FechaDeceso = reader.GetDateTime(reader.GetOrdinal("fecha_deceso")),
+                                    FechaDeceso = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("fecha_deceso"))),
                                     ImagenUrl = reader.GetString(reader.GetOrdinal("imagen_url"))
 
                                 };
@@ -114,7 +114,8 @@ namespace EF_DiegoQuispeR.Controllers
                                     IdEditorial = reader.IsDBNull(reader.GetOrdinal("id_editorial")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("id_editorial")),
                                     Sinopsis = reader.IsDBNull(reader.GetOrdinal("sinopsis")) ? (string) null : reader.GetString(reader.GetOrdinal("sinopsis")),
                                     ImagenUrl = reader.IsDBNull(reader.GetOrdinal("imagen_url")) ? (string) null : reader.GetString(reader.GetOrdinal("imagen_url")),
-                                    AnioPub = reader.IsDBNull(reader.GetOrdinal("anio_pub")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("anio_pub"))
+                                    AnioPub = reader.IsDBNull(reader.GetOrdinal("anio_pub")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("anio_pub")),
+                                    Categoria = reader.IsDBNull(reader.GetOrdinal("categoria")) ? (string)null : reader.GetString(reader.GetOrdinal("categoria")),
                                 };
                                 allInTable.Add(libro);
 

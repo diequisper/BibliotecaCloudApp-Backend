@@ -13,6 +13,9 @@ namespace EF_DiegoQuispeR
     {
         public static void Main(string[] args)
         {
+            System.Net.ServicePointManager.SecurityProtocol =
+             System.Net.SecurityProtocolType.Tls12 |
+             System.Net.SecurityProtocolType.Tls13;
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -21,6 +24,7 @@ namespace EF_DiegoQuispeR
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("http://*:44374");
                 });
     }
 }
