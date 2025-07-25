@@ -207,10 +207,12 @@ public partial class DbBibliotecaContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("apellido");
             entity.Property(e => e.Clave)
-                .IsRequired()
-                .HasMaxLength(30)
+                .HasMaxLength(100)
                 .HasColumnName("clave");
             entity.Property(e => e.Edad).HasColumnName("edad");
+            entity.Property(e => e.Iters)
+                .HasDefaultValue(100000)
+                .HasColumnName("iters");
             entity.Property(e => e.Nombre)
                 .IsRequired()
                 .HasMaxLength(30)
@@ -220,6 +222,9 @@ public partial class DbBibliotecaContext : DbContext
                 .HasMaxLength(14)
                 .IsUnicode(false)
                 .HasColumnName("rol");
+            entity.Property(e => e.Salt)
+                .HasMaxLength(44)
+                .HasColumnName("salt");
             entity.Property(e => e.Username)
                 .IsRequired()
                 .HasMaxLength(30)
