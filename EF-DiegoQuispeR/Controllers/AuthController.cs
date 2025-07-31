@@ -48,7 +48,7 @@ namespace EF_DiegoQuispeR.Controllers
             }
 
             loginRequest = new LoginRequestClass(thisUser.Username, loginRequest.Clave,
-                  thisUser.Salt, thisUser.Iters);
+                  thisUser.Salt, thisUser.Iters ?? 100000);
 
             if(loginRequest.VerifyPassword(thisUser.Clave) == false)
             {

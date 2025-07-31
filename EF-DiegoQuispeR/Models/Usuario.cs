@@ -25,7 +25,7 @@ public partial class Usuario
     public string Salt { get; set; }
 
     [JsonIgnore]
-    public int Iters { get; set; }
+    public int? Iters { get; set; }
     [JsonIgnore]
     public virtual ICollection<AutorBookmark> AutorBookmarks { get; set; } = new List<AutorBookmark>();
     [JsonIgnore]

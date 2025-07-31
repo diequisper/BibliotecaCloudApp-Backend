@@ -13,7 +13,7 @@ namespace EF_DiegoQuispeR.Models
         [JsonIgnore]
         public string Salt { get; set; }
         [JsonIgnore]
-        public int Iterations {  get; set; }
+        public int? Iterations {  get; set; }
 
         public LoginRequestClass(string Username, string Clave, string Salt, int Iterations)
         {
@@ -42,7 +42,7 @@ namespace EF_DiegoQuispeR.Models
 
             saltBytes = Convert.FromBase64String(Salt);
 
-            using var pbkdf2 = new Rfc2898DeriveBytes(passw, saltBytes, Iterations, HashAlgorithmName.SHA256);
+            using var pbkdf2 = new Rfc2898DeriveBytes(passw, saltBytes, Iterations ?? 100000, HashAlgorithmName.SHA256);
 
             byte[] hashBytes = pbkdf2.GetBytes(32);
             Clave = Convert.ToBase64String(hashBytes);

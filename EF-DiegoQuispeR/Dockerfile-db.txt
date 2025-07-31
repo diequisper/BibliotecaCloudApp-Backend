@@ -1,0 +1,29 @@
+FROM mcr.microsoft.com/mssql/server:2022-CU12-ubuntu-20.04
+
+ENV ACCEPT_EULA=Y \
+    SA_PASSWORD=CoolyPassy0!
+
+USER root
+
+# Install dependencies and sqlcmd
+RUN apt-get update && \
+    apt-get install -y curl gnupg apt-transport-https dos2unix && \
+    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+    curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list -o /etc/apt/sources.list.d/mssql-release.list && \
+    apt-get update && \
+    ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev && \
+    echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> /etc/bash.bashrc && \
+    ln -sfn /opt/mssql-tools/bin/sqlcmd /usr/bin/sqlcmd && \
+    ln -sfn /opt/mssql-tools/bin/bcp /usr/bin/bcp
+
+# Copy backup and restore script
+COPY backups/biblioteca_db_bak.bak /var/opt/mssql/backups/biblioteca_db_bak.bak
+COPY restore-db.sh /usr/config/restore-db.sh
+
+# Fix line endings and permissions on restore script
+RUN dos2unix /usr/config/restore-db.sh && chmod +x /usr/config/restore-db.sh
+
+USER mssql
+
+CMD ["/bin/bash", "/usr/config/restore-db.sh"]
+

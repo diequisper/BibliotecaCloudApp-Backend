@@ -54,12 +54,12 @@ namespace EF_DiegoQuispeR.Services
                                 {
                                     IdAutor = reader.GetInt32(reader.GetOrdinal("id_autor")),
                                     Nombre = reader.GetString(reader.GetOrdinal("nombre")),
-                                    Apellido = reader.GetString(reader.GetOrdinal("apellido")),
-                                    FechaNac = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("fecha_nac"))),
-                                    Nacionalidad = reader.GetString(reader.GetOrdinal("nacionalidad")),
-                                    BreveBio = reader.GetString(reader.GetOrdinal("breve_bio")),
-                                    FechaDeceso = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("fecha_deceso"))),
-                                    ImagenUrl = reader.GetString(reader.GetOrdinal("imagen_url"))
+                                    Apellido = await reader.IsDBNullAsync(reader.GetOrdinal("apellido")) ? (string) null : reader.GetString(reader.GetOrdinal("apellido")),
+                                    FechaNac = await reader.IsDBNullAsync(reader.GetOrdinal("fecha_nac")) ? (DateOnly?) null : DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("fecha_nac"))),
+                                    Nacionalidad = await reader.IsDBNullAsync(reader.GetOrdinal("nacionalidad")) ? (string) null : reader.GetString(reader.GetOrdinal("nacionalidad")),
+                                    BreveBio = await reader.IsDBNullAsync(reader.GetOrdinal("breve_bio")) ? (string)null : reader.GetString(reader.GetOrdinal("breve_bio")),
+                                    FechaDeceso = await reader.IsDBNullAsync(reader.GetOrdinal("fecha_deceso")) ? (DateOnly?)null : DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("fecha_deceso"))),
+                                    ImagenUrl = await reader.IsDBNullAsync(reader.GetOrdinal("imagen_url")) ? (string)null : reader.GetString(reader.GetOrdinal("imagen_url"))
                                 };
                                 allInTable.Add(autor);
                             }
@@ -80,9 +80,9 @@ namespace EF_DiegoQuispeR.Services
                                 {
                                     IdEditorial = reader.GetInt32(reader.GetOrdinal("id_editorial")),
                                     Nombre = reader.GetString(reader.GetOrdinal("nombre")),
-                                    PaisOrigen = reader.GetString(reader.GetOrdinal("pais_origen")),
-                                    SitioWeb = reader.GetString(reader.GetOrdinal("sitio_web")),
-                                    ImagenUrl = reader.GetString(reader.GetOrdinal("imagen_url")),
+                                    PaisOrigen = await reader.IsDBNullAsync(reader.GetOrdinal("pais_origen")) ? (string) null : reader.GetString(reader.GetOrdinal("pais_origen")),
+                                    SitioWeb = await reader.IsDBNullAsync(reader.GetOrdinal("sitio_web")) ? (string)null : reader.GetString(reader.GetOrdinal("sitio_web")),
+                                    ImagenUrl = await reader.IsDBNullAsync(reader.GetOrdinal("imagen_url")) ? (string)null : reader.GetString(reader.GetOrdinal("imagen_url")),
                                 };
                                 allInTable.Add(editorial);
                             }
@@ -103,14 +103,14 @@ namespace EF_DiegoQuispeR.Services
                                 {
                                     IdLibro = reader.GetInt32(reader.GetOrdinal("id_libro")),
                                     Titulo = reader.GetString(reader.GetOrdinal("titulo")),
-                                    IdAutor = reader.IsDBNull(reader.GetOrdinal("id_autor")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("id_autor")),
+                                    IdAutor = await reader.IsDBNullAsync(reader.GetOrdinal("id_autor")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("id_autor")),
                                     Idioma = reader.GetString(reader.GetOrdinal("idioma")),
-                                    AnioOrgPub = reader.IsDBNull(reader.GetOrdinal("anio_org_pub")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("anio_org_pub")),
-                                    IdEditorial = reader.IsDBNull(reader.GetOrdinal("id_editorial")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("id_editorial")),
-                                    Sinopsis = reader.IsDBNull(reader.GetOrdinal("sinopsis")) ? (string)null : reader.GetString(reader.GetOrdinal("sinopsis")),
-                                    ImagenUrl = reader.IsDBNull(reader.GetOrdinal("imagen_url")) ? (string)null : reader.GetString(reader.GetOrdinal("imagen_url")),
-                                    AnioPub = reader.IsDBNull(reader.GetOrdinal("anio_pub")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("anio_pub")),
-                                    Categoria = reader.IsDBNull(reader.GetOrdinal("categoria")) ? (string)null : reader.GetString(reader.GetOrdinal("categoria")),
+                                    AnioOrgPub = await reader.IsDBNullAsync(reader.GetOrdinal("anio_org_pub")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("anio_org_pub")),
+                                    IdEditorial = await reader.IsDBNullAsync(reader.GetOrdinal("id_editorial")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("id_editorial")),
+                                    Sinopsis = await reader.IsDBNullAsync(reader.GetOrdinal("sinopsis")) ? (string)null : reader.GetString(reader.GetOrdinal("sinopsis")),
+                                    ImagenUrl = await reader.IsDBNullAsync(reader.GetOrdinal("imagen_url")) ? (string)null : reader.GetString(reader.GetOrdinal("imagen_url")),
+                                    AnioPub = await reader.IsDBNullAsync(reader.GetOrdinal("anio_pub")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("anio_pub")),
+                                    Categoria = await reader.IsDBNullAsync(reader.GetOrdinal("categoria")) ? (string)null : reader.GetString(reader.GetOrdinal("categoria")),
                                 };
                                 allInTable.Add(libro);
                             }
@@ -133,8 +133,10 @@ namespace EF_DiegoQuispeR.Services
                                     Apellido = reader.GetString(reader.GetOrdinal("apellido")),
                                     Edad = reader.GetInt32(reader.GetOrdinal("edad")),
                                     Username = reader.GetString(reader.GetOrdinal("username")),
-                                    Clave = reader.GetString(reader.GetOrdinal("clave")),
-                                    Rol = reader.GetString(reader.GetOrdinal("rol"))
+                                    Clave = await reader.IsDBNullAsync(reader.GetOrdinal("clave")) ? (string)null : reader.GetString(reader.GetOrdinal("clave")),
+                                    Rol = await reader.IsDBNullAsync(reader.GetOrdinal("rol")) ? (string)null : reader.GetString(reader.GetOrdinal("rol")),
+                                    Salt = await reader.IsDBNullAsync(reader.GetOrdinal("salt")) ? (string) null : reader.GetString(reader.GetOrdinal("salt")),
+                                    Iters = await reader.IsDBNullAsync(reader.GetOrdinal("iters")) ? (int?) null : reader.GetInt32(reader.GetOrdinal("iters"))
                                 };
                                 allInTable.Add(usuario);
                             }
