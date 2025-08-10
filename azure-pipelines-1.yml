@@ -1,19 +1,19 @@
 trigger: none
 
 variables:
-  tag: 'latest'
+  tag_api: 'api'
 
 stages:
 - stage: BuildAndPush
-  displayName: Build and push Docker images manually
+  displayName: Build and push Docker app image manually
   jobs:
   - job: BuildPushJob
     pool:
       vmImage: ubuntu-latest
     steps:
     - script: |
-        docker compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml build
-      displayName: Build images with docker compose
+        docker build -t diegeauq/daan_proyecto:$(tag_api) $(Build.SourcesDirectory)/EF-DiegoQuispeR
+      displayName: Build app image
 
     - task: Docker@2
       displayName: Push app image to Docker Hub
@@ -22,7 +22,7 @@ stages:
         repository: 'diegeauq/daan_proyecto'
         command: 'push'
         tags: |
-          $(tag)
+          $(tag_api)
 
     - task: Docker@2
       displayName: Login to Docker Hub
