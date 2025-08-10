@@ -16,15 +16,16 @@ stages:
       vmImage: ubuntu-latest
     steps:
     - script: |
-        docker-compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml build
-      displayName: Build images with docker-compose
+        docker compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml build
+      displayName: Build images with docker compose
 
     - script: |
-        docker-compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml up -d
-      displayName: Start services (app + DB)
+        docker compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml up -d
+      displayName: Start services
 
     - script: |
-        docker-compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml down
+        docker compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml down
       displayName: Stop and clean up
+
 
 
