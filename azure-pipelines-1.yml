@@ -1,7 +1,3 @@
-# Docker
-# Build a Docker image
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger: none
 
 resources:
@@ -11,18 +7,24 @@ variables:
   tag: '$(Build.BuildId)'
 
 stages:
-- stage: Build
-  displayName: Build image
+- stage: BuildAndTest
+  displayName: Build and run services with docker-compose
   jobs:
-  - job: Build
-    displayName: Build
+  - job: BuildRun
+    displayName: Build and Run
     pool:
       vmImage: ubuntu-latest
     steps:
-    - task: Docker@2
-      displayName: Build an image
-      inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml'
-        tags: |
-          $(tag)
+    - script: |
+        docker-compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml build
+      displayName: Build images with docker-compose
+
+    - script: |
+        docker-compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml up -d
+      displayName: Start services (app + DB)
+
+    - script: |
+        docker-compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml down
+      displayName: Stop and clean up
+
+
