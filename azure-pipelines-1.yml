@@ -24,6 +24,12 @@ stages:
         tags: |
           $(tag)
 
+    - task: Docker@2
+      displayName: Login to Docker Hub
+      inputs:
+        command: login
+        containerRegistry: 'docker-hub'
+
     - script: |
         docker compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml up -d
       displayName: Start services
@@ -31,6 +37,7 @@ stages:
     - script: |
         docker compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml down
       displayName: Stop and clean up
+
 
 
 
