@@ -1,0 +1,31 @@
+trigger: none
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: BuildAndTest
+  displayName: Build and run services with docker-compose
+  jobs:
+  - job: BuildRun
+    displayName: Build and Run
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - script: |
+        docker compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml build
+      displayName: Build images with docker compose
+
+    - script: |
+        docker compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml up -d
+      displayName: Start services
+
+    - script: |
+        docker compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml down
+      displayName: Stop and clean up
+
+
+
