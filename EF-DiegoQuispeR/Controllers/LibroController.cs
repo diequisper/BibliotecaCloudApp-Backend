@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 
 namespace EF_DiegoQuispeR.Controllers
 {
-    [Authorize(Roles = "usuario")]
     [Route("api/[controller]")]
     [ApiController]
     public class LibroController : ControllerBase
@@ -32,7 +31,6 @@ namespace EF_DiegoQuispeR.Controllers
             this.libroService = libroService;
         }
 
-        // Método para obtener todos los elementos de una tabla especificada
         [HttpGet("getAll")]
         public async Task<ActionResult<List<dynamic>>> GetAllLibro([FromQuery] LibroService.GetAllOptions tableOpt)
         {
