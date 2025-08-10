@@ -1,9 +1,11 @@
-﻿
+﻿version: '3.8'
+
 services:
   web:
     build: .
+    image: diegeauq/daan_proyecto:latest
     ports:
-      - "5000:44374" 
+      - "5000:44374"
     depends_on:
       - db
     environment:
@@ -11,9 +13,16 @@ services:
       ConnectionStrings__DefaultConnection: "Server=db;Database=dbbteca;User Id=sa;Password=CoolyPassy0!"
 
   db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: diegeauq/daan_db:latest
     environment:
       SA_PASSWORD: "CoolyPassy0!"
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+volumes:
+  mssql_data:
+
+
