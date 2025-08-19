@@ -7,7 +7,11 @@ Backend tipo servicio web (API) del proyecto **Biblioteca App**, con las siguien
 - Gestión de favoritos (libros, autores o editoriales, requiere autenticación)
 
 ### Contexto
-Proyecto académico desarrollado en el curso **Desarrollo de Aplicaciones en la Nube**, con énfasis en la **integración y entrega continua (CI/CD)**.
+Proyecto académico desarrollado en el curso **Desarrollo de Aplicaciones en la Nube**, con énfasis en la **integración y entrega continua (CI/CD)**. <br/>
+- Trabajé en equipo de 3 integrantes
+- Me enfoqué en realizar el backend
+- Implementé algunas funciones del frontend
+- Repositorio del frontend: [frontend-bibliotecaApp](https://github.com/XianMina/BookStore.git)
 
 ### Características Técnicas
 - **Contenedores**: Backend y base de datos dockerizados  
