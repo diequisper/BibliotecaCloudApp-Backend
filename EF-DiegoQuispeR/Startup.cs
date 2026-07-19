@@ -36,6 +36,15 @@ namespace EF_DiegoQuispeR
             string conexion = Configuration.GetConnectionString("cn");
             services.AddDbContext<db_bibliotecaContext>(c => c.UseSqlServer(conexion));
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AngularPlcy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -100,6 +109,7 @@ namespace EF_DiegoQuispeR
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors("AngularPlcy");
 
             app.UseAuthentication();
             app.UseAuthorization();
