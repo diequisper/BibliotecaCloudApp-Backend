@@ -1,10 +1,13 @@
 ﻿using EF_DiegoQuispeR.Models;
 using EF_DiegoQuispeR.Repository;
 using EF_DiegoQuispeR.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -17,47 +20,50 @@ namespace EF_DiegoQuispeR.Controllers
     {
         private readonly AuthService authService;
         private readonly UsuarioRepo usuarioRepo;
-        private readonly db_bibliotecaContext ctx;
         public IConfiguration Configuration { get; }
-        public AuthController(AuthService authService, db_bibliotecaContext _ctx, IConfiguration config, UsuarioRepo usuarioRepo)
+        public AuthController(AuthService authService, IConfiguration config, UsuarioRepo usuarioRepo)
         {
             this.authService = authService;
-            Configuration = config;
-            ctx = _ctx;
             this.usuarioRepo = usuarioRepo;
-
+            Configuration = config;
         }
 
         // POST api/<AuthController>
         [HttpPost("AutenticarLogin")]
         public async Task<IActionResult> AuthenticateLoginIn([FromBody] LoginRequestClass loginRequest)
         {
-            if (string.IsNullOrEmpty(loginRequest.Username))
-            {
-                return BadRequest(new { message = "El nombre de usuario es inválido" });
-            }else if (string.IsNullOrEmpty(loginRequest.Clave))
-            {
-                return BadRequest(new { message = "La clave es inválida" });
-            }
-            
-            Usuario thisUser = await usuarioRepo.findByUsername(loginRequest.Username);
+            GenericServiceResponse authServiceResponse = await authService.LoginAuthUser(loginRequest);
 
-            if (thisUser == null)
+            if (!authServiceResponse.Success)
             {
-                return BadRequest(new { message = "No se han encontrado registros. Es probable que no este registrado" });
+                switch (authServiceResponse.Code)
+                {
+                    case 400: return BadRequest(new { message = authServiceResponse.Message });
+                    case 401: return Unauthorized(new { message = authServiceResponse.Message });
+                    default: return StatusCode(500, new { message = "Ocurrió un error interno." });
+                }
             }
 
-            loginRequest = new LoginRequestClass(thisUser.Username, loginRequest.Clave,
-                  thisUser.Salt, thisUser.Iters ?? 100000);
+            Response.Cookies.Append("authToken", authServiceResponse.Message, new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.Lax
+                    }
+                );
 
-            if(loginRequest.VerifyPassword(thisUser.Clave) == false)
-            {
-                return Unauthorized(new { message = "La clave is incorrecta" });
-            }
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(authServiceResponse.Message);
+
+            int userId = int.Parse(token.Claims
+                                .First(c => c.Type == ClaimTypes.NameIdentifier)
+                                .Value);
+
+            string name = (await usuarioRepo.findById(userId)).Nombre;
 
             return Ok(new 
             {
-                token = authService.GenerateJwt(thisUser.Username, thisUser.Rol)
+                message = $"Bienvenido {name}"
             });
 
         }

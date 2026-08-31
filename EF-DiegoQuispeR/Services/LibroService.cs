@@ -1,6 +1,8 @@
 ﻿using EF_DiegoQuispeR.Models;
+using EF_DiegoQuispeR.Repository;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,10 +14,12 @@ namespace EF_DiegoQuispeR.Services
     {
         public IConfiguration Configuration { get; }
         private readonly db_bibliotecaContext ctx;
-        public LibroService(IConfiguration config, db_bibliotecaContext _ctx)
+        private readonly LibroRepository libroRepository;
+        public LibroService(IConfiguration config, db_bibliotecaContext _ctx, LibroRepository libroRepository)
         {
             Configuration = config;
             ctx = _ctx;
+            this.libroRepository = libroRepository;
 
         }
         public enum GetAllOptions
@@ -146,6 +150,60 @@ namespace EF_DiegoQuispeR.Services
             }
 
             return allInTable;
+        }
+
+        public async Task<GenericServiceResponse> GetById(int id)
+        {
+            Libro libro = await libroRepository.FindById(id);
+
+            GenericServiceResponse genericServiceResponse = new GenericServiceResponse
+            {
+                Success = true,
+                Code = 200,
+                Message = "Consulta exitosa",
+                ThisObject = libro
+            };
+
+            return genericServiceResponse;
+        }
+
+        public async Task<GenericServiceResponse> GetAllGenres()
+        {
+            List<string> allGenres = await libroRepository.FindAllUniqueGenres();
+
+            return new GenericServiceResponse
+            {
+                Success = true,
+                Code = 200,
+                Message = "Consulta exitosa",
+                ThisObject = allGenres
+            };
+        }
+
+        public async Task<GenericServiceResponse> GetAllByGenre(string genre)
+        {
+            List<Libro> librosByGenre = await libroRepository.FindByGenre(genre);
+
+            return new GenericServiceResponse
+            {
+                Success = true,
+                Code = 200,
+                Message = "Consulta exitosa",
+                ThisObject = librosByGenre
+            };
+        }
+
+        public async Task<GenericServiceResponse> GetAllByAutor(int autorId)
+        {
+            List<Libro> librosByAutor = await libroRepository.FindByAuthor(autorId);
+
+            return new GenericServiceResponse
+            {
+                Success = true,
+                Code = 200,
+                Message = "Consulta exitosa",
+                ThisObject = librosByAutor
+            };
         }
     }
 }

@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+	<Nullable>enable</Nullable>
     <RootNamespace>EF_DiegoQuispeR</RootNamespace>
     <UserSecretsId>ad153187-799a-41fe-a21a-2fa698d8ed9d</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>

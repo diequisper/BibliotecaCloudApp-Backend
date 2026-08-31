@@ -1,8 +1,8 @@
 ﻿using EF_DiegoQuispeR.Models;
-using EF_DiegoQuispeR.Repository;
 using EF_DiegoQuispeR.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,51 +13,40 @@ namespace EF_DiegoQuispeR.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        private readonly AuthService authService;
-        private readonly UsuarioRepo usuarioRepo;
-        private readonly db_bibliotecaContext ctx;
-        public UsuarioController(AuthService authService, db_bibliotecaContext _ctx, UsuarioRepo usuarioRepo)
+        private readonly UsuarioService usuarioService;
+        public UsuarioController(UsuarioService usuarioService)
         {
-            this.authService = authService;
-            ctx = _ctx;
-            this.usuarioRepo = usuarioRepo;
+            this.usuarioService = usuarioService;
         }
 
         [HttpPost("CrearUsuario")]
         public async Task<IActionResult> Post([FromBody] Usuario usuario)
         {
-            if (usuario == null)
+            GenericServiceResponse usuarioServiceResult = await usuarioService.RegistrarUsuario(usuario);
+
+            if (!usuarioServiceResult.Success && usuarioServiceResult.Code == 400)
             {
-                return BadRequest(new { message = "El usuario no es válido"});
+                return BadRequest(new {message = usuarioServiceResult.Message});
+            }
+            
+            return Ok(new { message = usuarioServiceResult.Message });
+        }
+
+        [Authorize(Roles = "usuario")]
+        [HttpGet("UsuarioPorId")]
+        public async Task<IActionResult> GetUserById()
+        {
+            int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            GenericServiceResponse response = await usuarioService.GetUsuarioById(userId);
+
+            if (!response.Success)
+            {
+                return NotFound(new { message = response.Message });
             }
 
-            switch (usuario)
-            {
-                case {Username : var u } when await usuarioRepo.isUsernameUsed(u):
-                    return BadRequest(new { message = "Este nombre de usuario ya existe" });
-                case { Nombre : var n } when string.IsNullOrEmpty(n) || string.IsNullOrWhiteSpace(n):
-                    return BadRequest(new { message = "El campo \"Nombre\" está vacio. Llene todos los campos requeridos"});
-                case { Apellido : var a } when string.IsNullOrEmpty(a) || string.IsNullOrWhiteSpace(a):
-                    return BadRequest(new { message = "El campo \"Apellido\" está vacio. Llene todos los campos requeridos" });
-                case { Edad : var e} when e <= 0:
-                    return BadRequest(new { message = "El campo \"Edad\" está vacio. Llene todos los campos requeridos" });
-                case { Username : var u } when string.IsNullOrEmpty(u) || string.IsNullOrWhiteSpace(u):
-                    return BadRequest(new { message = "El campo \"Nombre de Usuario\" está vacio. Llene todos los campos requeridos" });
-                case { Clave : var c } when string.IsNullOrEmpty(c) || string.IsNullOrWhiteSpace(c):
-                    return BadRequest(new { message = "El campo \"Clave\" está vacio. Llene todos los campos requeridos" });
-                default:
-                    break;
-            }
+            return Ok( new { message = response.Message, usuario = response.ThisObject});
 
-            LoginRequestClass loginRequest = new LoginRequestClass(usuario.Username, usuario.Clave, null, 100_000);
-
-            usuario.Clave = loginRequest.Clave;
-            usuario.Salt = loginRequest.Salt;
-            usuario.Iters = loginRequest.Iterations;
-
-            await usuarioRepo.save(usuario);
-
-            return Ok(new { message = "Usuario creado"});
         }
     }
 }

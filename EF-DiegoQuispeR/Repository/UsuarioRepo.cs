@@ -21,14 +21,24 @@ namespace EF_DiegoQuispeR.Repository
             return await ctx.Usuarios.ToListAsync(); 
         }
 
-        public async Task<Usuario> findByUsername(string username)
+        public async Task<Usuario?> findByUsername(string username)
         {
             return await ctx.Usuarios.FirstOrDefaultAsync(u => u.Username == username);
         }
 
-        public async Task<Usuario> findById(int id)
+        public async Task<ProtectedUsuarioResponse?> findById(int id)
         {
-            return await ctx.Usuarios.FirstOrDefaultAsync(u => u.Id == id);
+            return await ctx.Usuarios
+                .Where(u => u.Id == id)
+                .Select(u => new ProtectedUsuarioResponse
+                {
+                    Nombre = u.Nombre,
+                    Apellido = u.Apellido,
+                    Edad = u.Edad,
+                    Username = u.Username,
+                    Rol = u.Rol
+                })
+                .FirstOrDefaultAsync();
         }
 
         public async Task<bool> isUsernameUsed(string username)
