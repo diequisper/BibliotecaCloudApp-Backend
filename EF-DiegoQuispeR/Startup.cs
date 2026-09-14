@@ -35,9 +35,10 @@ namespace EF_DiegoQuispeR
             {
                 options.AddPolicy("AngularPlcy", builder =>
                 {
-                    builder.AllowAnyOrigin()
+                    builder.WithOrigins("http://localhost:4200")
                         .AllowAnyMethod()
-                        .AllowAnyHeader();
+                        .AllowAnyHeader()
+                        .AllowCredentials();
                 });
             });
             services.AddControllers();

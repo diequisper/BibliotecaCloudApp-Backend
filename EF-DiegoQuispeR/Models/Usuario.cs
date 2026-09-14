@@ -22,7 +22,7 @@ public partial class Usuario
     public string Rol { get; set; }
 
     [JsonIgnore]
-    public string Salt { get; set; }
+    public string? Salt { get; set; }
 
     [JsonIgnore]
     public int? Iters { get; set; }
