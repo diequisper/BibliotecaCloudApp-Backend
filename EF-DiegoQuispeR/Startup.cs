@@ -111,6 +111,7 @@ namespace EF_DiegoQuispeR
             services.AddScoped<AuthService>();
             services.AddScoped<LibroService>();
             services.AddScoped<UsuarioRepo>();
+            services.AddScoped<UsuarioService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
