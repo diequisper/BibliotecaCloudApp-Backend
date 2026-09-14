@@ -124,7 +124,7 @@ namespace EF_DiegoQuispeR
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EF_DiegoQuispeR v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
             app.UseCors("AngularPlcy");
