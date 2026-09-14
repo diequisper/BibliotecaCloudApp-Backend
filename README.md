@@ -5,6 +5,7 @@ Backend tipo servicio web (API) del proyecto **Biblioteca App**, con las siguien
 - Consulta de información de libros, autores y editoriales
 - Inicio de sesión y registro de usuarios
 - Gestión de favoritos (libros, autores o editoriales, requiere autenticación)
+- Documentación en Notion: [Notion-BibliotecaCloudApp](https://app.notion.com/p/Biblioteca-Cloud-App-3d3fe676179480e78900de0c08b0e7d0?source=copy_link) 
 
 ### Contexto
 Proyecto académico desarrollado en el curso **Desarrollo de Aplicaciones en la Nube**, con énfasis en la **integración y entrega continua (CI/CD)**. <br/>
