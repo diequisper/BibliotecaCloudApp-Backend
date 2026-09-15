@@ -11,7 +11,7 @@ namespace EF_DiegoQuispeR.Models
         public string Username { get; set; }
         public string Clave { get; set; }
         [JsonIgnore]
-        public string Salt { get; set; }
+        public string? Salt { get; set; }
         [JsonIgnore]
         public int? Iterations {  get; set; }
 
