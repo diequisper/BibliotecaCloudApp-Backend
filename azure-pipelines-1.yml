@@ -36,10 +36,14 @@ stages:
     - script: |
         docker compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml up -d
       displayName: Start services
+      env:
+        DB_PASSWORD: $(DB_PASSWORD)
 
     - script: |
         docker compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml down
       displayName: Stop and clean up
+      env:
+        DB_PASSWORD: $(DB_PASSWORD)
 
 
 
