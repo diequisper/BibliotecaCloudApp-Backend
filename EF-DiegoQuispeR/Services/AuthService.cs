@@ -1,5 +1,6 @@
 ﻿using EF_DiegoQuispeR.Models;
 using EF_DiegoQuispeR.Repository;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,15 +13,18 @@ namespace EF_DiegoQuispeR.Services
     public class AuthService
     {
         private readonly UsuarioRepo usuarioRepo;
+        private readonly IConfiguration _configuration;
 
-        public AuthService(UsuarioRepo usuarioRepo)
+        public AuthService(UsuarioRepo usuarioRepo, IConfiguration configuration)
         {
             this.usuarioRepo = usuarioRepo;
+            _configuration = configuration;
+
         }
 
         private string GenerateJwt(int id, string username, string rol)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("daangrupo1diegosohaildanieldaannumber1"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT_SECRET"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
