@@ -18,8 +18,8 @@ public partial class Usuario
     public string Username { get; set; }
 
     public string Clave { get; set; }
-
-    public string Rol { get; set; }
+    [JsonIgnore]
+    public string? Rol { get; set; }
 
     [JsonIgnore]
     public string? Salt { get; set; }

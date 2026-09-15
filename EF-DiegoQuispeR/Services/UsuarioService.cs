@@ -55,6 +55,7 @@ namespace EF_DiegoQuispeR.Services
             usuario.Clave = loginRequest.Clave;
             usuario.Salt = loginRequest.Salt;
             usuario.Iters = loginRequest.Iterations;
+            usuario.Rol = "usuario";
 
             await usuarioRepo.save(usuario);
 
