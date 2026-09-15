@@ -38,12 +38,11 @@ stages:
       displayName: Start services
       env:
         DB_PASSWORD: $(DB_PASSWORD)
+        JWT_SECRET: $(JWT_SECRET)
 
     - script: |
         docker compose -f $(Build.SourcesDirectory)/EF-DiegoQuispeR/docker-compose.yml down
       displayName: Stop and clean up
-      env:
-        DB_PASSWORD: $(DB_PASSWORD)
 
 
 
