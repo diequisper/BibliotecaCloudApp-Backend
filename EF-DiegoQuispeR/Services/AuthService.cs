@@ -74,6 +74,7 @@ namespace EF_DiegoQuispeR.Services
             }
 
             var token = GenerateJwt(thisUser.Id, thisUser.Username, thisUser.Rol);
+            genericServiceResponse.Success = true;
             genericServiceResponse.Code = 200;
             genericServiceResponse.Message = token;
             return genericServiceResponse;

@@ -110,6 +110,7 @@ namespace EF_DiegoQuispeR
             services.AddAuthorization();
             services.AddScoped<AuthService>();
             services.AddScoped<LibroService>();
+            services.AddScoped<LibroRepository>();
             services.AddScoped<UsuarioRepo>();
             services.AddScoped<UsuarioService>();
         }

@@ -9,12 +9,12 @@ services:
       - db
     environment:
       ASPNETCORE_URLS: "http://+:44374"
-      ConnectionStrings__DefaultConnection: "Server=db;Database=dbbteca;User Id=sa;Password=CoolyPassy0!"
+      ConnectionStrings__cn: "Server=db;Database=dbbteca;User Id=sa;Password=${DB_PASSWORD}"
 
   db:
     image: diegeauq/daan_proyecto:db
     environment:
-      SA_PASSWORD: "CoolyPassy0!"
+      SA_PASSWORD: "${DB_PASSWORD}"
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"

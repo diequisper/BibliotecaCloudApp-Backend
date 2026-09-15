@@ -1,12 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 
 namespace EF_DiegoQuispeR
@@ -15,6 +9,8 @@ namespace EF_DiegoQuispeR
     {
         public static void Main(string[] args)
         {
+            DotNetEnv.Env.Load();
+
             System.Net.ServicePointManager.SecurityProtocol =
              System.Net.SecurityProtocolType.Tls12 |
              System.Net.SecurityProtocolType.Tls13;
