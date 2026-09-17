@@ -73,7 +73,7 @@ namespace EF_DiegoQuispeR.Services
 
             if(usuarioDtoResp == null)
             {
-                genericServiceResponse.Message = "Usuario encontrado correctamente";
+                genericServiceResponse.Message = "No se encontraron resultados";
                 return genericServiceResponse;
             }
 

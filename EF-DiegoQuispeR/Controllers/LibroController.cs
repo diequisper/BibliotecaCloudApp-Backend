@@ -56,7 +56,7 @@ namespace EF_DiegoQuispeR.Controllers
         }
 
         [HttpGet("getAllGenres")]
-        public async Task<ActionResult<List<string>>> getAllGenres()
+        public async Task<ActionResult<List<string>>> GetAllGenres()
         {
             GenericServiceResponse libroServiceResponse = await libroService.GetAllGenres();
 
@@ -68,7 +68,7 @@ namespace EF_DiegoQuispeR.Controllers
         }
 
         [HttpGet("getAllByGenre")]
-        public async Task<IActionResult> getAllByGenre(string genre)
+        public async Task<IActionResult> GetAllByGenre(string genre)
         {
             GenericServiceResponse libroServiceResponse = await libroService.GetAllByGenre(genre);
 
@@ -80,7 +80,7 @@ namespace EF_DiegoQuispeR.Controllers
         }
 
         [HttpGet("getAllByAuthor")]
-        public async Task<IActionResult> getAllByAuthor(int autorId)
+        public async Task<IActionResult> GetAllByAuthor(int autorId)
         {
             GenericServiceResponse libroServiceResponse = await libroService.GetAllByAutor(autorId);
 

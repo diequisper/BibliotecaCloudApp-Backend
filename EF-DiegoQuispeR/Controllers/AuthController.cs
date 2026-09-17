@@ -1,10 +1,10 @@
 ﻿using EF_DiegoQuispeR.Models;
-using EF_DiegoQuispeR.Repository;
 using EF_DiegoQuispeR.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -19,17 +19,16 @@ namespace EF_DiegoQuispeR.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AuthService authService;
-        private readonly UsuarioRepo usuarioRepo;
+        private readonly UsuarioService _usuarioService;
         public IConfiguration Configuration { get; }
-        public AuthController(AuthService authService, IConfiguration config, UsuarioRepo usuarioRepo)
+        public AuthController(AuthService authService, UsuarioService usuarioService)
         {
             this.authService = authService;
-            this.usuarioRepo = usuarioRepo;
-            Configuration = config;
+            this._usuarioService = usuarioService;
         }
 
         // POST api/<AuthController>
-        [HttpPost("AutenticarLogin")]
+        [HttpPost("autenticarLogin")]
         public async Task<IActionResult> AuthenticateLoginIn([FromBody] LoginRequestClass loginRequest)
         {
             GenericServiceResponse authServiceResponse = await authService.LoginAuthUser(loginRequest);
@@ -59,7 +58,8 @@ namespace EF_DiegoQuispeR.Controllers
                                 .First(c => c.Type == ClaimTypes.NameIdentifier)
                                 .Value);
 
-            string name = (await usuarioRepo.findById(userId)).Nombre;
+            ProtectedUsuarioResponse usuarioResp = (ProtectedUsuarioResponse)(await _usuarioService.GetUsuarioById(userId)).ThisObject!;
+            string name = usuarioResp.Nombre;
 
             return Ok(new 
             {
@@ -68,12 +68,28 @@ namespace EF_DiegoQuispeR.Controllers
         }
 
         [Authorize]
-        [HttpPost("Logout")]
+        [HttpPost("logout")]
         public IActionResult Logout()
         {
             Response.Cookies.Delete("authToken");
 
             return Ok(new { message = "Sesión cerrada" });
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<IActionResult> Me()
+        {
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+            ProtectedUsuarioResponse usuarioResp = (ProtectedUsuarioResponse)(await _usuarioService.GetUsuarioById(userId)).ThisObject!;
+            string name = usuarioResp.Nombre;
+
+            return Ok(new
+            {
+                nombre = name,
+                username = User.FindFirstValue("username")
+            });
         }
     }
 }

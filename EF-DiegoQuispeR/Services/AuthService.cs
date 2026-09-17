@@ -31,7 +31,7 @@ namespace EF_DiegoQuispeR.Services
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, username),
+                new Claim("username", username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Role, rol)
             };
