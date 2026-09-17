@@ -1,4 +1,5 @@
-﻿using EF_DiegoQuispeR.Models;
+﻿using Azure;
+using EF_DiegoQuispeR.Models;
 using EF_DiegoQuispeR.Repository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -82,6 +83,6 @@ namespace EF_DiegoQuispeR.Services
             genericServiceResponse.Code = 200;
             genericServiceResponse.Message = token;
             return genericServiceResponse;
-        } 
+        }
     }
 }

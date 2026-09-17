@@ -9,7 +9,7 @@ services:
       - db
     environment:
       ASPNETCORE_URLS: "http://+:44374"
-      ConnectionStrings__cn: "Server=db;Database=dbbteca;User Id=sa;Password=${DB_PASSWORD}"
+      ConnectionStrings__cn: "Server=db;Database=dbbteca;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True"
       JWT_SECRET: "${JWT_SECRET}"
 
   db:

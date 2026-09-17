@@ -1,10 +1,10 @@
 ﻿using EF_DiegoQuispeR.Models;
 using EF_DiegoQuispeR.Repository;
 using EF_DiegoQuispeR.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -65,7 +65,15 @@ namespace EF_DiegoQuispeR.Controllers
             {
                 message = $"Bienvenido {name}"
             });
+        }
 
+        [Authorize]
+        [HttpPost("Logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("authToken");
+
+            return Ok(new { message = "Sesión cerrada" });
         }
     }
 }

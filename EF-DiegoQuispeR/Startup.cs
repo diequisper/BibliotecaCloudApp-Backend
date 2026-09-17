@@ -111,8 +111,18 @@ namespace EF_DiegoQuispeR
             services.AddScoped<AuthService>();
             services.AddScoped<LibroService>();
             services.AddScoped<LibroRepository>();
+            services.AddScoped<AutorRepository>();
+            services.AddScoped<AutorService>();
+            services.AddScoped<EditorialRepository>();
+            services.AddScoped<EditorialService>();
             services.AddScoped<UsuarioRepo>();
             services.AddScoped<UsuarioService>();
+            services.AddScoped<LibroBookmarkService>();
+            services.AddScoped<LibroBookmarkRepository>();
+            services.AddScoped<AutorBookmarkRepository>();
+            services.AddScoped<AutorBookmarkService>();
+            services.AddScoped<EditorialBookmarkRepository>();
+            services.AddScoped<EditorialBookmarkService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

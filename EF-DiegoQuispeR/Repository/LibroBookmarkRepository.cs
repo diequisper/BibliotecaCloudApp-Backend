@@ -8,8 +8,8 @@ namespace EF_DiegoQuispeR.Repository
 {
     public class LibroBookmarkRepository
     {
-        private readonly DbBibliotecaContext ctx;
-        public LibroBookmarkRepository(DbBibliotecaContext ctx)
+        private readonly db_bibliotecaContext ctx;
+        public LibroBookmarkRepository(db_bibliotecaContext ctx)
         {
             this.ctx = ctx;
         }
