@@ -4,13 +4,17 @@ services:
   web:
     image: diegeauq/daan_proyecto:api
     ports:
-      - "5000:44374"
+      - "5001:44374"
     depends_on:
       - db
     environment:
-      ASPNETCORE_URLS: "http://+:44374"
+      ASPNETCORE_URLS: "https://+:44374"
+      ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+      ASPNETCORE_Kestrel__Certificates__Default__Password: "${HTTPS_CERT_PASSWORD}"
       ConnectionStrings__cn: "Server=db;Database=dbbteca;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True"
       JWT_SECRET: "${JWT_SECRET}"
+    volumes:
+      - "${USERPROFILE}/.aspnet/https:/https:ro"
 
   db:
     image: diegeauq/daan_proyecto:db
@@ -24,5 +28,4 @@ services:
 
 volumes:
   mssql_data:
-
 
