@@ -42,11 +42,14 @@ namespace EF_DiegoQuispeR.Repository
 
         public async Task<List<Libro>> FindByAuthor(int autorId)
         {
-            return await ctx.Libros
-                    .Where(l => l.IdAutor == autorId)
-                    .ToListAsync();
+            return await ctx.LibroAutors.
+                             Where(la => la.IdAutor == autorId).
+                             Join(
+                                ctx.Libros,
+                                la => la.IdLibro,
+                                l => l.IdLibro,
+                                (la, l) => l
+                             ).ToListAsync();
         }
-
-
     }
 }

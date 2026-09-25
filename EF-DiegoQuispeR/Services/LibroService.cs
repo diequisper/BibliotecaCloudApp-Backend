@@ -2,7 +2,6 @@
 using EF_DiegoQuispeR.Repository;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -29,8 +28,7 @@ namespace EF_DiegoQuispeR.Services
             editorial,
             editorial_bookmark,
             libro,
-            libro_bookmark,
-            usuario
+            libro_bookmark
         }
 
         public async Task<List<dynamic>> GetAllLibro(GetAllOptions tableOpt)
@@ -107,7 +105,6 @@ namespace EF_DiegoQuispeR.Services
                                 {
                                     IdLibro = reader.GetInt32(reader.GetOrdinal("id_libro")),
                                     Titulo = reader.GetString(reader.GetOrdinal("titulo")),
-                                    IdAutor = await reader.IsDBNullAsync(reader.GetOrdinal("id_autor")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("id_autor")),
                                     Idioma = reader.GetString(reader.GetOrdinal("idioma")),
                                     AnioOrgPub = await reader.IsDBNullAsync(reader.GetOrdinal("anio_org_pub")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("anio_org_pub")),
                                     IdEditorial = await reader.IsDBNullAsync(reader.GetOrdinal("id_editorial")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("id_editorial")),
@@ -127,22 +124,6 @@ namespace EF_DiegoQuispeR.Services
                                     Libro = reader.GetInt32(reader.GetOrdinal("libro"))
                                 };
                                 allInTable.Add(libroBookmark);
-                            }
-                            if (tableOpt == GetAllOptions.usuario)
-                            {
-                                Usuario usuario = new Usuario
-                                {
-                                    Id = reader.GetInt32(reader.GetOrdinal("id")),
-                                    Nombre = reader.GetString(reader.GetOrdinal("nombre")),
-                                    Apellido = reader.GetString(reader.GetOrdinal("apellido")),
-                                    Edad = reader.GetInt32(reader.GetOrdinal("edad")),
-                                    Username = reader.GetString(reader.GetOrdinal("username")),
-                                    Clave = await reader.IsDBNullAsync(reader.GetOrdinal("clave")) ? (string)null : reader.GetString(reader.GetOrdinal("clave")),
-                                    Rol = await reader.IsDBNullAsync(reader.GetOrdinal("rol")) ? (string)null : reader.GetString(reader.GetOrdinal("rol")),
-                                    Salt = await reader.IsDBNullAsync(reader.GetOrdinal("salt")) ? (string) null : reader.GetString(reader.GetOrdinal("salt")),
-                                    Iters = await reader.IsDBNullAsync(reader.GetOrdinal("iters")) ? (int?) null : reader.GetInt32(reader.GetOrdinal("iters"))
-                                };
-                                allInTable.Add(usuario);
                             }
                         }
                     }

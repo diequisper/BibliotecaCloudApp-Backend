@@ -22,6 +22,5 @@ public partial class Autor
     public string ImagenUrl { get; set; }
 
     public virtual ICollection<AutorBookmark> AutorBookmarks { get; set; } = new List<AutorBookmark>();
-
-    public virtual ICollection<Libro> Libros { get; set; } = new List<Libro>();
+    public virtual ICollection<LibroAutor> LibroAutors { get; set; } = new List<LibroAutor>();
 }

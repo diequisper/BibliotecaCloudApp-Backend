@@ -24,6 +24,7 @@ namespace EF_DiegoQuispeR.Models
         public virtual DbSet<Libro> Libros { get; set; }
         public virtual DbSet<LibroBookmark> LibroBookmarks { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<LibroAutor> LibroAutors { get; set; }
 
         /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -165,8 +166,6 @@ namespace EF_DiegoQuispeR.Models
 
                 entity.Property(e => e.AnioPub).HasColumnName("anio_pub");
 
-                entity.Property(e => e.IdAutor).HasColumnName("id_autor");
-
                 entity.Property(e => e.IdEditorial).HasColumnName("id_editorial");
 
                 entity.Property(e => e.Idioma)
@@ -188,12 +187,6 @@ namespace EF_DiegoQuispeR.Models
                     .HasMaxLength(150)
                     .IsUnicode(false)
                     .HasColumnName("titulo");
-
-                entity.HasOne(d => d.IdAutorNavigation)
-                    .WithMany(p => p.Libros)
-                    .HasForeignKey(d => d.IdAutor)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__libro__id_autor__145C0A3F");
 
                 entity.HasOne(d => d.IdEditorialNavigation)
                     .WithMany(p => p.Libros)
@@ -263,6 +256,27 @@ namespace EF_DiegoQuispeR.Models
                     .IsRequired()
                     .HasMaxLength(30)
                     .HasColumnName("username");
+            });
+
+            modelBuilder.Entity<LibroAutor>(entity =>
+            {
+                entity.HasKey(e => new { e.IdLibro, e.IdAutor });
+
+                entity.ToTable("libro_autor");
+
+                entity.Property(e => e.IdLibro)
+                    .HasColumnName("id_libro");
+
+                entity.Property(e => e.IdAutor)
+                    .HasColumnName("id_autor");
+
+                entity.HasOne(d => d.IdLibroNavigation)
+                    .WithMany(p => p.LibroAutors)
+                    .HasForeignKey(d => d.IdLibro);
+
+                entity.HasOne(d => d.IdAutorNavigation)
+                    .WithMany(p => p.LibroAutors)
+                    .HasForeignKey(d => d.IdAutor);
             });
 
             OnModelCreatingPartial(modelBuilder);

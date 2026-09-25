@@ -34,5 +34,19 @@ namespace EF_DiegoQuispeR.Repository
         {
             return await ctx.Autors.FirstOrDefaultAsync(a => a.Nacionalidad == nationality);
         }
+
+        public async Task<List<Autor>> FindByBookId(int id_libro)
+        {
+            return await ctx.LibroAutors
+                            .Where(la => la.IdLibro == id_libro)
+                            .Join
+                                (
+                                    ctx.Autors,
+                                    la => la.IdAutor,
+                                    a => a.IdAutor,
+                                    (la, a) => a
+                                )
+                            .ToListAsync();
+        }
     }
 }

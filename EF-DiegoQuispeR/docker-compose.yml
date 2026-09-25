@@ -11,7 +11,7 @@ services:
       ASPNETCORE_URLS: "https://+:44374"
       ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
       ASPNETCORE_Kestrel__Certificates__Default__Password: "${HTTPS_CERT_PASSWORD}"
-      ConnectionStrings__cn: "Server=db;Database=dbbteca;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True"
+      ConnectionStrings__cn: "Server=db;Database=db_biblioteca;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True"
       JWT_SECRET: "${JWT_SECRET}"
     volumes:
       - "${USERPROFILE}/.aspnet/https:/https:ro"

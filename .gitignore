@@ -366,3 +366,6 @@ FodyWeavers.xsd
 .env
 .env.*
 !.env.example
+
+# db_backup
+db_backup/

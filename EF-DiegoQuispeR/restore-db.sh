@@ -12,7 +12,7 @@ done
 echo "Restoring database..."
 /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${SA_PASSWORD}" -Q "
 RESTORE DATABASE [db_biblioteca]
-FROM DISK = N'/var/opt/mssql/backups/biblioteca_db_bak.bak'
+FROM DISK = N'/var/opt/mssql/backups/db_biblioteca.bak'
 WITH MOVE 'db_biblioteca' TO '/var/opt/mssql/data/db_biblioteca.mdf',
      MOVE 'db_biblioteca_log' TO '/var/opt/mssql/data/db_biblioteca_log.ldf',
      REPLACE

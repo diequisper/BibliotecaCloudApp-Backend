@@ -9,8 +9,6 @@ public partial class Libro
 
     public string Titulo { get; set; }
 
-    public int? IdAutor { get; set; }
-
     public string Idioma { get; set; }
 
     public int? AnioOrgPub { get; set; }
@@ -25,9 +23,8 @@ public partial class Libro
 
     public string Categoria { get; set; }
 
-    public virtual Autor IdAutorNavigation { get; set; }
-
     public virtual Editorial IdEditorialNavigation { get; set; }
 
     public virtual ICollection<LibroBookmark> LibroBookmarks { get; set; } = new List<LibroBookmark>();
+    public virtual ICollection<LibroAutor> LibroAutors { get; set; } = new List<LibroAutor>();
 }
