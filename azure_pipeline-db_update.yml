@@ -36,7 +36,7 @@ stages:
       displayName: Build database image
       inputs:
         command: build
-        dockerfile: '$(Build.SourcesDirectory)/EF-DiegoQuispeR/Dockerfile'
+        dockerfile: '$(Build.SourcesDirectory)/EF-DiegoQuispeR/Dockerfile-db'
         repository: 'diegeauq/daan_proyecto'
         tags: |
           db
