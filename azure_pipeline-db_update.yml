@@ -1,0 +1,63 @@
+trigger: none
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build database image
+  jobs:
+  - job: Build
+    displayName: Build database image
+    pool:
+      vmImage: ubuntu-latest
+
+    steps:
+
+    # Download .bak from Azure DevOps Secure Files
+    - task: DownloadSecureFile@1
+      name: databaseBackup
+      displayName: Download database backup
+      inputs:
+        secureFile: 'db_biblioteca.bak'
+
+    # Put it where the Dockerfile expects it
+    - bash: |
+        mkdir -p '$(Build.SourcesDirectory)/EF-DiegoQuispeR/db_backup'
+        cp "$(databaseBackup.secureFilePath)" \
+           '$(Build.SourcesDirectory)/EF-DiegoQuispeR/db_backup/db_biblioteca.bak'
+      displayName: Prepare database backup
+
+    # Build
+    - task: Docker@2
+      displayName: Build database image
+      inputs:
+        command: build
+        dockerfile: '$(Build.SourcesDirectory)/EF-DiegoQuispeR/Dockerfile'
+        tags: |
+          db
+
+    # Push
+    - task: Docker@2
+      displayName: Push database image
+      inputs:
+        containerRegistry: 'docker-hub'
+        repository: 'diegeauq/daan_proyecto'
+        command: push
+        tags: |
+          db
+    
+
+
+
+
+
+
+
+
+
+
+
