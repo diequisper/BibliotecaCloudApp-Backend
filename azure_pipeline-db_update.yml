@@ -38,6 +38,7 @@ stages:
         command: build
         dockerfile: '$(Build.SourcesDirectory)/EF-DiegoQuispeR/Dockerfile-db'
         repository: 'diegeauq/daan_proyecto'
+        buildContext: '$(Build.SourcesDirectory)/EF-DiegoQuispeR'
         tags: |
           db
 
