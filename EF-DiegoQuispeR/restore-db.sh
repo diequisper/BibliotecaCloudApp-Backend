@@ -11,7 +11,7 @@ for i in {1..60}; do
     /opt/mssql-tools/bin/sqlcmd \
         -S localhost \
         -U sa \
-        -P "${SA_PASSWORD}" \
+        -P "${MSSQL_SA_PASSWORD}" \
         -Q "SELECT 1" && break
 
     echo "SQL Server not ready yet... ($i)"
@@ -23,7 +23,7 @@ echo "Restoring database..."
 /opt/mssql-tools/bin/sqlcmd \
     -S localhost \
     -U sa \
-    -P "${SA_PASSWORD}" \
+    -P "${MSSQL_SA_PASSWORD}" \
     -Q "
 RESTORE DATABASE [db_biblioteca]
 FROM DISK = N'/var/opt/mssql/backups/db_biblioteca.bak'
