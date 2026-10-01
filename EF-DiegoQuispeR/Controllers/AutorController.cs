@@ -63,5 +63,18 @@ namespace EF_DiegoQuispeR.Controllers
             });
 
         }
+
+        [HttpGet("getAuthorByBook")]
+        public async Task<IActionResult> GetAuthorByBook(int id_libro)
+        {
+            GenericServiceResponse genResp = await autorService.GetAuthorByBook(id_libro);
+
+            return StatusCode(genResp.Code, new
+            {
+                message = genResp.Message,
+                result = genResp.ThisObject
+            });
+
+        }
     }
 }

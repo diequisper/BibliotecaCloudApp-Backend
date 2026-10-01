@@ -72,5 +72,20 @@ namespace EF_DiegoQuispeR.Services
 
             return genericServiceResponse;
         }
+
+        public async Task<GenericServiceResponse> GetAuthorByBook(int id_libro)
+        {
+            List<Autor> autor = await autorRepository.FindByBookId(id_libro);
+
+            GenericServiceResponse genericServiceResponse = new GenericServiceResponse
+            {
+                Success = true,
+                Code = 200,
+                Message = "Ok",
+                ThisObject = autor
+            };
+
+            return genericServiceResponse;
+        }
     }
 }
