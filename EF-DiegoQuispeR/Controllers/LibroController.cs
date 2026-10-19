@@ -75,7 +75,7 @@ namespace EF_DiegoQuispeR.Controllers
             return Ok(new
             {
                 message = libroServiceResponse.Message,
-                categorias = libroServiceResponse.ThisObject
+                result = libroServiceResponse.ThisObject
             });
         }
 
@@ -87,7 +87,19 @@ namespace EF_DiegoQuispeR.Controllers
             return Ok(new
             {
                 message = libroServiceResponse.Message,
-                categorias = libroServiceResponse.ThisObject
+                result = libroServiceResponse.ThisObject
+            });
+        }
+
+        [HttpGet("getAllByEditorial")]
+        public async Task<IActionResult> GetAllByEditorial([FromQuery]int editorialId)
+        {
+            GenericServiceResponse libroServiceResponse = await libroService.GetAllByEditorial(editorialId);
+
+            return Ok(new
+            {
+                message = libroServiceResponse.Message,
+                result = libroServiceResponse.ThisObject
             });
         }
     }

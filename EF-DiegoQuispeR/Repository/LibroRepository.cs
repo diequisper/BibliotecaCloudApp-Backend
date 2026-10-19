@@ -51,5 +51,9 @@ namespace EF_DiegoQuispeR.Repository
                                 (la, l) => l
                              ).ToListAsync();
         }
+        public async Task<Libro[]> FindAllByEditorial(int editorialId)
+        {
+            return await ctx.Libros.Where(l => l.IdEditorial == editorialId).ToArrayAsync();
+        }
     }
 }

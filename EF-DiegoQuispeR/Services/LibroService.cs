@@ -186,5 +186,17 @@ namespace EF_DiegoQuispeR.Services
                 ThisObject = librosByAutor
             };
         }
+        public async Task<GenericServiceResponse> GetAllByEditorial(int editorialId)
+        {
+            Libro[] librosByEditorial = await libroRepository.FindAllByEditorial(editorialId);
+
+            return new GenericServiceResponse
+            {
+                Success = true,
+                Code = 200,
+                Message = "Consulta exitosa",
+                ThisObject = librosByEditorial
+            };
+        }
     }
 }

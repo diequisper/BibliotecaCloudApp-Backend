@@ -62,7 +62,6 @@ namespace EF_DiegoQuispeR.Controllers
                 message = genResp.Message,
                 result = genResp.ThisObject
             });
-
         }
     }
 }
