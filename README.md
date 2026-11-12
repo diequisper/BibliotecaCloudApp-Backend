@@ -12,7 +12,8 @@ Proyecto académico desarrollado en el curso **Desarrollo de Aplicaciones en la 
 - Trabajé en equipo de 3 integrantes
 - Me enfoqué en realizar el backend
 - Implementé algunas funciones del frontend
-- Repositorio del frontend: [frontend-bibliotecaApp](https://github.com/XianMina/BookStore.git)
+- Repositorio del frontend 1: [frontend1-bibliotecaApp](https://github.com/diequisper/biblioteca-cloud-app-frontend.git)
+- Repositorio del frontend 2: [frontend2-bibliotecaApp](https://github.com/XianMina/BookStore.git)
 
 ### Características Técnicas
 - **Contenedores**: Backend y base de datos dockerizados  
