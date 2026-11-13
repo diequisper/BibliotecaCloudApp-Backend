@@ -34,13 +34,16 @@ Repositorio del frontend 2: [frontend2-bibliotecaApp](https://github.com/XianMin
   - Docker Desktop instalado y en ejecución.
   - Certificado HTTPS de desarrollo de ASP.NET Core.
   #### Pasos
-  1. Descargar el archivo docker-compose.yml que se encuentra en este repositorio
-  2. Configurar las variables de entorno. La plantilla esta disponible en este repositorio en el archivo .env.example
-  3. Generar el certificado HTTPS de desarrollo de ASP.NET Core para la variable de entorno HTTPS_CERT_PASSWORD en el archivo               .env.example. Este certificado debe crearse en la ruta ```%USERPROFILE%\.aspnet\https``` y crear el archivo .pfx allí con el siguiente    comando
+  1. Descargar el archivo `docker-compose.yml` disponible en este repositorio.
+  2. Configurar las variables de entorno. La plantilla está disponible en el archivo `.env.example`. Completar los valores                  correspondientes y guardar una copia con el nombre `.env` en la misma carpeta que `docker-compose.yml`.
+  3. Generar el certificado HTTPS de desarrollo de ASP.NET Core. Este certificado con extensión ´´´.pfx´´´ debe crearse en la ruta ```%USERPROFILE%\.aspnet\https``` con el comando:
   ```powershell
   dotnet dev-certs https -ep "$env:USERPROFILE\.aspnet\https\aspnetapp.pfx" -p "TuContraseñaCertificado"
-  ``` 
-  4. Abrir PowerShell en la carpeta donde se descargo el archivo docker-compose.yml
-  5. Levantar el contenedor con ```docker compose up``` Docker descargará automáticamente las imágenes necesarias desde Docker Hub y        levantará los servicios.
-  Una vez que las imágenes (db y backend) esten ejecutandose en el contenedor, el frontend 1 puede clonarse y ejecutarse con ng serve --    ssl y este se comunicará con ellos.
-  Importante! El comando para ejecutar el frontend debe ser ng serve --ssl porque el proyecto esta configurado para usar HTTPS y proceder   de todas maneras en la pantalla de advertencia
+  ```
+  4. Definir la variable de entorno ```HTTPS_CERT_PASSWORD``` con la contraseña usada en el paso 3
+  5. Abrir PowerShell en la carpeta donde se encuentran los archivos `docker-compose.yml` y `.env`.
+  6. Levantar el contenedor con ```docker compose up``` Docker descargará automáticamente las imágenes necesarias desde Docker Hub y        levantará los servicios.
+
+  Una vez que las imágenes (db y backend) esten ejecutandose en el contenedor, el frontend 1 puede clonarse y ejecutarse con ```ng serve --ssl``` y este se comunicará con ellos.
+  
+  **Importante!** El frontend está configurado para utilizar HTTPS, por lo que debe ejecutarse con el parámetro `--ssl`. Si el navegador muestra una advertencia de seguridad relacionada con el certificado de desarrollo, será necesario configurar la confianza del certificado antes de continuar.
