@@ -36,7 +36,7 @@ Repositorio del frontend 2: [frontend2-bibliotecaApp](https://github.com/XianMin
   #### Pasos
   1. Descargar el archivo `docker-compose.yml` disponible en este repositorio.
   2. Configurar las variables de entorno. La plantilla está disponible en el archivo `.env.example`. Completar los valores                  correspondientes y guardar una copia con el nombre `.env` en la misma carpeta que `docker-compose.yml`.
-  3. Generar el certificado HTTPS de desarrollo de ASP.NET Core. Este certificado con extensión ´´´.pfx´´´ debe crearse en la ruta ```%USERPROFILE%\.aspnet\https``` con el comando:
+  3. Generar el certificado HTTPS de desarrollo de ASP.NET Core. Este certificado con extensión ```.pfx``` debe crearse en la ruta ```%USERPROFILE%\.aspnet\https``` con el comando:
   ```powershell
   dotnet dev-certs https -ep "$env:USERPROFILE\.aspnet\https\aspnetapp.pfx" -p "TuContraseñaCertificado"
   ```
@@ -46,4 +46,4 @@ Repositorio del frontend 2: [frontend2-bibliotecaApp](https://github.com/XianMin
 
   Una vez que las imágenes (db y backend) esten ejecutandose en el contenedor, el frontend 1 puede clonarse y ejecutarse con ```ng serve --ssl``` y este se comunicará con ellos.
   
-  **Importante!** El frontend está configurado para utilizar HTTPS, por lo que debe ejecutarse con el parámetro `--ssl`. Si el navegador muestra una advertencia de seguridad relacionada con el certificado de desarrollo, será necesario configurar la confianza del certificado antes de continuar.
+  **Importante!** El frontend está configurado para utilizar HTTPS, por lo que debe ejecutarse con el parámetro `--ssl`. Si el navegador muestra una advertencia de seguridad relacionada con el certificado de desarrollo, será necesario configurar la confianza del certificado antes de continuar. En la pagina de Notion para este proyecto existe un tutorial para enclarecer esto.
